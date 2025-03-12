@@ -1,8 +1,10 @@
 ID,Time,Item Name,Location,Coordinates,Parsed Time,time_diff,minListing_world,minListing_dc,recentPurchase_world,recentPurchase_dc,averageSalePrice_dc,dailySaleVelocity_dc
-19852,02:00,Othardian Plum,The Azim Steppe,"(x23,y16)",1900-01-01 02:00:00,-16,50,2,18,45,,
-7591,02:00,Shroud Tea Leaves,Central Shroud,"(x16,y20)",1900-01-01 02:00:00,-16,60,1,21,50,50,7.4125089732511515
-12896,02:00,Old World Fig,The Dravanian Forelands,"(x26,y12)",1900-01-01 02:00:00,-16,4,4,8,20,15.428571428571429,20.755008806998024
-13765,02:00,Old World Fig Seeds,The Dravanian Forelands,"(x26,y12)",1900-01-01 02:00:00,-16,999,23,999,999,1820.9058171745153,107.03646357151598
-7611,02:00,Fragrant Log,South Shroud,"(x18,y23)",1900-01-01 02:00:00,-16,,,,,,
-8030,02:00,Antumbral Rock,Eastern Thanalan,"(x26,y19)",1900-01-01 02:00:00,-16,,,,,,
-19968,02:00,Raw Triphane,The Fringes,"(x24,y8)",1900-01-01 02:00:00,-16,842,145,899,180,144.33519553072625,53.07331099338532
+27833,00:00,Broad Beans,Il Mheg,"(x24,y36)",1900-01-01,54,12,7,10,10,,
+27828,00:00,Mist Spinach,The Rak'tika Greatwood,"(x34,y21)",1900-01-01,54,46,15,39,257,65.31976744186046,47.654346895343046
+12943,00:00,Dravanian Mistletoe,The Churning Mists,"(x24,y6)",1900-01-01,54,800,600,900,950,785.3,47.10019417379064
+12899,00:00,Porcini,The Churning Mists,"(x24,y6)",1900-01-01,54,74,5,42,3,3,8.311787178015335
+27729,00:00,Raw Triplite,Amh Araeng,"(x20,y29)",1900-01-01,54,50,5,60,50,,
+27731,00:00,Raw Onyx,The Tempest,"(x16,y21)",1900-01-01,54,2000,1000,2000,500,500,6.649419625295386
+19970,00:00,Raw Star Spinel,The Ruby Sea,"(x15,y5)",1900-01-01,54,20,5,175,5,5,2.770589630694947
+19907,00:00,Ala Mhigan Salt Crystal,The Lochs,"(x21,y29)",1900-01-01,54,499,197,648,648,381.05555555555554,214.4434706359459
+12538,00:00,Adamantite Ore,Azys Lla,"(x24,y6)",1900-01-01,54,502,211,499,469,547.1653363740023,485.9606531589467

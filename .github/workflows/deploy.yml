@@ -1,0 +1,41 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t your-dockerhub-username/valuable_gathering .
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Push Docker image
+        run: docker push your-dockerhub-username/valuable_gathering
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Windows Laptop via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.WINDOWS_HOST }}
+          username: ${{ secrets.WINDOWS_USER }}
+          key: ${{ secrets.WINDOWS_SSH_KEY }}
+          script: |
+            docker pull your-dockerhub-username/valuable_gathering
+            docker stop valuable_gathering || true
+            docker rm valuable_gathering || true
+            docker run -d --name valuable_gathering -p 8000:8000 your-dockerhub-username/valuable_gathering
