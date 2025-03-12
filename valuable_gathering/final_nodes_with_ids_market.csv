@@ -1,0 +1,10 @@
+ID,Time,Item Name,Location,Coordinates,Parsed Time,time_diff,minListing_world,minListing_dc,recentPurchase_world,recentPurchase_dc,averageSalePrice_dc,dailySaleVelocity_dc
+27822,20:00,Russet Popoto,Amh Araeng,"(x19,y16)",1900-01-01 20:00:00,68,8,7,9,100,125093.75,4.765179727867967
+19865,20:00,Lotus Root,Yanxia,"(x28,y7)",1900-01-01 20:00:00,68,10,9,10,5,31.818181818181817,3.276058580344524
+12900,20:00,Chysahl Greens,Coerthas Western Highlands,"(x8,y9)",1900-01-01 20:00:00,68,100,12,800,700,272.46938775510205,43.78002320602319
+19973,20:00,Raw Rhodonite,The Peaks,"(x26,y12)",1900-01-01 20:00:00,68,599,599,2498,400,1152.4656862745098,60.75590242419373
+5546,21:00,Trillium Bulb,East Shroud,"(x13,y23)",1900-01-01 21:00:00,128,220,94,300,1000,850.056338028169,42.29084283917341
+5158,21:00,Astral Rock,Coerthas Central Highlands,"(x23,y23)",1900-01-01 21:00:00,128,90,19,60,100,56.75202156334232,110.49218920626518
+6209,21:00,Kidragora,East Shroud,"(x13,y23)",1900-01-01 21:00:00,128,500,300,500,120,658.625,2.3825791426889777
+13768,22:00,Coerthan Tea Seeds,Coerthas Western Highlands,"(x31,y20)",1900-01-01 22:00:00,188,100,25,101,4001,4001,0.2978221710561441
+13767,22:00,Pearl Sprout Seeds,Coerthas Western Highlands,"(x31,y20)",1900-01-01 22:00:00,188,1,1,49,49,,
