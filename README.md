@@ -99,7 +99,7 @@ Quit the server with CONTROL-C.
 
 ### 7. Visit the Application in Your Browser
 
-Open your web browser and go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/). You should see the homepage of the Valuable Gathering application.
+Open your web browser and go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
 ## Additional Resources
 
