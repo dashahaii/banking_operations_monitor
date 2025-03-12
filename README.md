@@ -12,6 +12,11 @@ If you haven’t already downloaded the project, clone it using Git. Open your t
 git clone <repository-url>
 cd <repository-directory>
 
+```
+
+### 1.5 -> Docker Easy Setup
+
+```bash
 # docker (optional)
 docker build -t valuable_gathering .
 docker run -p 8000:8000 valuable_gathering
@@ -20,7 +25,7 @@ docker run -p 8000:8000 valuable_gathering
 
 *(Replace `<repository-url>` with the URL of the repository and `<repository-directory>` with the folder name.)*
 
-### 2. Create a Virtual Environment (Recommended)
+### 2. Create a Virtual Environment 
 
 A virtual environment isolates the project’s dependencies from other Python projects on your system.
 
