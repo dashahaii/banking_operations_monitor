@@ -33,14 +33,11 @@ jobs:
     needs: build
     runs-on: [self-hosted, windows]
     steps:
-      - name: Deploy to Windows Laptop via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.WINDOWS_HOST }}
-          username: ${{ secrets.WINDOWS_USER }}
-          key: ${{ secrets.WINDOWS_SSH_KEY }}
-          script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
-            docker stop valuable_gathering || true
-            docker rm valuable_gathering || true
-            docker run -d --name valuable_gathering -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
+      - name: Deploy with PowerShell's SSH
+        run: |
+          ssh -i $env:WINDOWS_SSH_KEY $env:WINDOWS_USER@${{ secrets.WINDOWS_HOST }} "docker pull $env:DOCKER_IMAGE && docker stop valuable_gathering || true && docker rm valuable_gathering || true && docker run -d --name valuable_gathering -p 8000:8000 $env:DOCKER_IMAGE"
+        shell: pwsh
+        env:
+          WINDOWS_SSH_KEY: ${{ secrets.WINDOWS_SSH_KEY }}
+          WINDOWS_USER: ${{ secrets.WINDOWS_USER }}
+          DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
