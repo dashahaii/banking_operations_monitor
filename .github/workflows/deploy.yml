@@ -52,21 +52,20 @@ jobs:
     needs: build
     runs-on: [self-hosted, windows]
     steps:
-      - name: Write SSH Key to File
-        shell: pwsh
-        run: |
-          $key = "${{ secrets.WINDOWS_SSH_KEY }}"
-          Set-Content -Path key.pem -Value $key -NoNewline
-          icacls key.pem /inheritance:r
-          icacls key.pem /grant:r "$($env:USERNAME):(R)"
-      
-      - name: Deploy with native SSH (real time logs)
+      - name: Deploy container directly
         shell: pwsh
         env:
-          WINDOWS_USER: ${{ secrets.WINDOWS_USER }}
-          WINDOWS_HOST: ${{ secrets.WINDOWS_HOST }}
           DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
         run: |
-          ssh -tt -i key.pem $env:WINDOWS_USER@$env:WINDOWS_HOST "docker pull $env:DOCKER_IMAGE | tee deploy.log && docker stop valuable_gathering || true && docker rm valuable_gathering || true && docker run -d --name valuable_gathering -p 8000:8000 $env:DOCKER_IMAGE"
-          ssh -tt -i key.pem $env:WINDOWS_USER@$env:WINDOWS_HOST "powershell -Command \"\$job = Start-Job -ScriptBlock { docker logs -f valuable_gathering } ; Wait-Job -Timeout 30 \$job ; Stop-Job \$job ; Receive-Job \$job | Tee-Object -FilePath deploy.log\""
-        
+          Write-Output "Pulling Docker image..."
+          docker pull $env:DOCKER_IMAGE
+          
+          Write-Output "Stopping and removing any existing container..."
+          docker stop valuable_gathering || Write-Output "No container to stop."
+          docker rm valuable_gathering || Write-Output "No container to remove."
+          
+          Write-Output "Starting new container..."
+          docker run -d --name valuable_gathering -p 8000:8000 $env:DOCKER_IMAGE
+          
+          Write-Output "Fetching container logs (first 20 lines):"
+          docker logs valuable_gathering --tail 20
