@@ -1,15 +1,15 @@
 ID,Time,Item Name,Location,Coordinates,Parsed Time,time_diff
-27833,00:00,Broad Beans,Il Mheg,"(x24,y36)",1900-01-01,54
-27828,00:00,Mist Spinach,The Rak'tika Greatwood,"(x34,y21)",1900-01-01,54
-33000,00:00,Rarefied Pine Resin,Yanxia,"(x19,y14)",1900-01-01,54
-33001,00:00,Rarefied Pine Log,Yanxia,"(x19,y14)",1900-01-01,54
-33009,00:00,Rarefied Urunday Log,The Peaks,"(x31,y7)",1900-01-01,54
-12943,00:00,Dravanian Mistletoe,The Churning Mists,"(x24,y6)",1900-01-01,54
-12899,00:00,Porcini,The Churning Mists,"(x24,y6)",1900-01-01,54
-32995,00:00,Rarefied Dark Chestnut,The Dravanian Forelands,"(x16,y36)",1900-01-01,54
-32996,00:00,Rarefied Dark Chestnut Resin,The Dravanian Forelands,"(x16,y36)",1900-01-01,54
-27729,00:00,Raw Triplite,Amh Araeng,"(x20,y29)",1900-01-01,54
-27731,00:00,Raw Onyx,The Tempest,"(x16,y21)",1900-01-01,54
-19970,00:00,Raw Star Spinel,The Ruby Sea,"(x15,y5)",1900-01-01,54
-19907,00:00,Ala Mhigan Salt Crystal,The Lochs,"(x21,y29)",1900-01-01,54
-12538,00:00,Adamantite Ore,Azys Lla,"(x24,y6)",1900-01-01,54
+33003,20:00,Rarefied White Oak Log,Kholusia,"(x28,y33)",1900-01-01 20:00:00,8
+27822,20:00,Russet Popoto,Amh Araeng,"(x19,y16)",1900-01-01 20:00:00,8
+19865,20:00,Lotus Root,Yanxia,"(x28,y7)",1900-01-01 20:00:00,8
+12900,20:00,Chysahl Greens,Coerthas Western Highlands,"(x8,y9)",1900-01-01 20:00:00,8
+32977,20:00,Rarefied Raw Kyanite,The Fringes,"(x30,y13)",1900-01-01 20:00:00,8
+19973,20:00,Raw Rhodonite,The Peaks,"(x26,y12)",1900-01-01 20:00:00,8
+32983,20:00,Rarefied Sea Salt,The Tempest,"(x25,y4)",1900-01-01 20:00:00,8
+32985,20:00,Rarefied Raw Onyx,The Tempest,"(x25,y4)",1900-01-01 20:00:00,8
+32975,20:00,Rarefied Raw Triphane,The Fringes,"(x30,y13)",1900-01-01 20:00:00,8
+6209,21:00,Kidragora,East Shroud,"(x13,y23)",1900-01-01 21:00:00,68
+5158,21:00,Astral Rock,Coerthas Central Highlands,"(x23,y23)",1900-01-01 21:00:00,68
+5546,21:00,Trillium Bulb,East Shroud,"(x13,y23)",1900-01-01 21:00:00,68
+13768,22:00,Coerthan Tea Seeds,Coerthas Western Highlands,"(x31,y20)",1900-01-01 22:00:00,128
+13767,22:00,Pearl Sprout Seeds,Coerthas Western Highlands,"(x31,y20)",1900-01-01 22:00:00,128

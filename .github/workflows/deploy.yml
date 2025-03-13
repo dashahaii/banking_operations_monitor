@@ -14,6 +14,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Set up Python environment for running tests
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Django tests
+        run: python manage.py test
+
       - name: Build Docker image
         shell: pwsh
         env:
@@ -43,15 +57,15 @@ jobs:
         run: |
           $key = "${{ secrets.WINDOWS_SSH_KEY }}"
           Set-Content -Path key.pem -Value $key -NoNewline
-          # Restrict permissions on the key file (remove inheritance, grant read access to current user)
           icacls key.pem /inheritance:r
           icacls key.pem /grant:r "$($env:USERNAME):(R)"
       
-      - name: Deploy with native SSH
+      - name: Deploy with native SSH (verbose)
         shell: pwsh
         env:
           WINDOWS_USER: ${{ secrets.WINDOWS_USER }}
           WINDOWS_HOST: ${{ secrets.WINDOWS_HOST }}
           DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
         run: |
-          ssh -i key.pem $env:WINDOWS_USER@$env:WINDOWS_HOST "docker pull $env:DOCKER_IMAGE && docker stop valuable_gathering || true && docker rm valuable_gathering || true && docker run -d --name valuable_gathering -p 8000:8000 $env:DOCKER_IMAGE"
+          ssh -v -t -i key.pem $env:WINDOWS_USER@$env:WINDOWS_HOST "docker pull $env:DOCKER_IMAGE | tee deploy.log && docker stop valuable_gathering || true && docker rm valuable_gathering || true && docker run --name valuable_gathering -p 8000:8000 $env:DOCKER_IMAGE 2>&1 | tee -a deploy.log"
+          type deploy.log
