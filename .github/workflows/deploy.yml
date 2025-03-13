@@ -60,12 +60,13 @@ jobs:
           icacls key.pem /inheritance:r
           icacls key.pem /grant:r "$($env:USERNAME):(R)"
       
-      - name: Deploy with native SSH (force TTY)
+      - name: Deploy with native SSH (real time logs)
         shell: pwsh
         env:
           WINDOWS_USER: ${{ secrets.WINDOWS_USER }}
           WINDOWS_HOST: ${{ secrets.WINDOWS_HOST }}
           DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
         run: |
-          ssh -tt -i key.pem $env:WINDOWS_USER@$env:WINDOWS_HOST "docker pull $env:DOCKER_IMAGE | tee deploy.log && docker stop valuable_gathering || true && docker rm valuable_gathering || true && docker run --name valuable_gathering -p 8000:8000 $env:DOCKER_IMAGE 2>&1 | tee -a deploy.log"
-      
+          ssh -tt -i key.pem $env:WINDOWS_USER@$env:WINDOWS_HOST "docker pull $env:DOCKER_IMAGE | tee deploy.log && docker stop valuable_gathering || true && docker rm valuable_gathering || true && docker run -d --name valuable_gathering -p 8000:8000 $env:DOCKER_IMAGE"
+          ssh -tt -i key.pem $env:WINDOWS_USER@$env:WINDOWS_HOST "powershell -Command \"\$job = Start-Job -ScriptBlock { docker logs -f valuable_gathering } ; Wait-Job -Timeout 30 \$job ; Stop-Job \$job ; Receive-Job \$job | Tee-Object -FilePath deploy.log\""
+        
