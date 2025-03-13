@@ -31,7 +31,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, windows]
     steps:
       - name: Deploy to Windows Laptop via SSH
         uses: appleboy/ssh-action@master
