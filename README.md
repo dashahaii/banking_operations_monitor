@@ -17,10 +17,10 @@ cd <repository-directory>
 ### 1.5 -> Docker Easy Setup
 
 ```bash
-# docker option
+
 docker build -t valuable_gathering .
 docker run -p 8000:8000 valuable_gathering
-# AFTER FIRST RUN DELETE AND REBUILD EACH PATCH
+
 ```
 
 *(Replace `<repository-url>` with the URL of the repository and `<repository-directory>` with the folder name.)*
