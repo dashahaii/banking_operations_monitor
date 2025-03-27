@@ -1,27 +1,27 @@
 from django.shortcuts import render
 from django.conf import settings
+import sys
 import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import csv
-from . import timed_nodes
+from workshop_projects import consolidate_csv_files
+from workshop_projects import generate_gathering_list
 
 def index(request):
-    base_dir = settings.BASE_DIR
-
-    input_file = os.path.join(base_dir, "unspoiled_nodes.txt")
-    cleaned_file = os.path.join(base_dir, "cleaned_data.csv")
-    final_file = os.path.join(base_dir, "final_nodes_with_ids.csv")
-    sorted_file = os.path.join(base_dir, "final_nodes_with_ids_sorted.csv")
-    market_file = os.path.join(base_dir, "final_nodes_with_ids_market.csv")
-
-    # Run functions in sequence
-    timed_nodes.clean_unspoiled_data(input_file, cleaned_file)
-    timed_nodes.assign_ids(cleaned_file, final_file)
-    timed_nodes.sort_for_current_time(final_file, sorted_file)
-    timed_nodes.generate_market_data(sorted_file, market_file)
-    
-    # Read the market CSV into a list of dictionaries
     table_data = []
-    with open(market_file, newline='', encoding='utf-8') as csvfile:
+    consolidated_data = consolidate_csv_files()
+    utils_dir = 'workshop_utilities/'
+    if consolidated_data is not None:
+        generate_gathering_list(
+            total_csv=os.path.join(utils_dir, 'workshop_output.csv'),
+            recipe_book_csv=os.path.join(utils_dir, 'recipe_book.csv'),
+            recipe_gathering_csv=os.path.join(utils_dir, 'recipe_gathering.csv'),
+            output_csv=os.path.join(utils_dir, 'gathering_list.csv')
+        )
+        
+    # Read the output CSV into a list of dictionaries
+    gathering_output = os.path.join(utils_dir, 'gathering_list.csv')
+    with open(gathering_output, newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             table_data.append(row)
