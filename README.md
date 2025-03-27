@@ -14,7 +14,7 @@ cd <repository-directory>
 
 ```
 
-### 1.5 -> Docker Easy Setup
+### Docker Easy Setup (SHORTCUT)
 
 ```bash
 
