@@ -1,6 +1,6 @@
-# Valuable Gathering Django Server
+# ffxiv_workshop_companion Django Server
 
-Welcome to the Valuable Gathering project!
+Welcome to the ffxiv_workshop_companion project!
 
 ## Setup Instructions
 
@@ -18,8 +18,8 @@ cd <repository-directory>
 
 ```bash
 
-docker build -t valuable_gathering .
-docker run -p 8000:8000 valuable_gathering
+docker build -t ffxiv_workshop_companion .
+docker run -p 8000:8000 ffxiv_workshop_companion
 
 ```
 

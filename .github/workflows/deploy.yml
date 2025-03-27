@@ -26,7 +26,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Django tests
-        run: python manage.py test
+        run: $env:RUN_LIVE_DB_TESTS=1; python manage.py test
 
       - name: Build Docker image
         shell: powershell

@@ -1,10 +1,10 @@
 ID,Time,Item Name,Location,Coordinates,Parsed Time,time_diff,minListing_world,minListing_dc,recentPurchase_world,recentPurchase_dc,averageSalePrice_dc,dailySaleVelocity_dc
-27822,20:00,Russet Popoto,Amh Araeng,"(x19,y16)",1900-01-01 20:00:00,8,100,90,95,91,91,5
-19865,20:00,Lotus Root,Yanxia,"(x28,y7)",1900-01-01 20:00:00,8,100,90,95,91,91,5
-12900,20:00,Chysahl Greens,Coerthas Western Highlands,"(x8,y9)",1900-01-01 20:00:00,8,100,90,95,91,91,5
-19973,20:00,Raw Rhodonite,The Peaks,"(x26,y12)",1900-01-01 20:00:00,8,100,90,95,91,91,5
-6209,21:00,Kidragora,East Shroud,"(x13,y23)",1900-01-01 21:00:00,68,100,90,95,91,91,5
-5158,21:00,Astral Rock,Coerthas Central Highlands,"(x23,y23)",1900-01-01 21:00:00,68,100,90,95,91,91,5
-5546,21:00,Trillium Bulb,East Shroud,"(x13,y23)",1900-01-01 21:00:00,68,100,90,95,91,91,5
-13768,22:00,Coerthan Tea Seeds,Coerthas Western Highlands,"(x31,y20)",1900-01-01 22:00:00,128,100,90,95,91,91,5
-13767,22:00,Pearl Sprout Seeds,Coerthas Western Highlands,"(x31,y20)",1900-01-01 22:00:00,128,100,90,95,91,91,5
+27833,00:00,Broad Beans,Il Mheg,"(x24,y36)",1900-01-01,39,100,90,95,91,91,5
+27828,00:00,Mist Spinach,The Rak'tika Greatwood,"(x34,y21)",1900-01-01,39,100,90,95,91,91,5
+12943,00:00,Dravanian Mistletoe,The Churning Mists,"(x24,y6)",1900-01-01,39,100,90,95,91,91,5
+12899,00:00,Porcini,The Churning Mists,"(x24,y6)",1900-01-01,39,100,90,95,91,91,5
+27729,00:00,Raw Triplite,Amh Araeng,"(x20,y29)",1900-01-01,39,100,90,95,91,91,5
+27731,00:00,Raw Onyx,The Tempest,"(x16,y21)",1900-01-01,39,100,90,95,91,91,5
+19970,00:00,Raw Star Spinel,The Ruby Sea,"(x15,y5)",1900-01-01,39,100,90,95,91,91,5
+19907,00:00,Ala Mhigan Salt Crystal,The Lochs,"(x21,y29)",1900-01-01,39,100,90,95,91,91,5
+12538,00:00,Adamantite Ore,Azys Lla,"(x24,y6)",1900-01-01,39,100,90,95,91,91,5
