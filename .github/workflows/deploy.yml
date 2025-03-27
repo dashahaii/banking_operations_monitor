@@ -26,6 +26,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Django tests
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: $env:RUN_LIVE_DB_TESTS=1; python manage.py test
 
       - name: Build Docker image
@@ -56,6 +58,7 @@ jobs:
         shell: pwsh
         env:
           DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           Write-Output "Pulling Docker image..."
           docker pull $env:DOCKER_IMAGE
@@ -65,7 +68,7 @@ jobs:
           docker rm valuable_gathering || Write-Output "No container to remove."
           
           Write-Output "Starting new container..."
-          docker run -d --name valuable_gathering -p 8000:8000 $env:DOCKER_IMAGE
+          docker run -d --name valuable_gathering -p 8000:8000 -e DATABASE_URL="$env:DATABASE_URL" $env:DOCKER_IMAGE
           
           Write-Output "Fetching container logs (first 20 lines):"
           docker logs valuable_gathering --tail 20
