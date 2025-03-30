@@ -17,9 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from ffxiv_workshop_companion.views import index
+from ffxiv_workshop_companion.views import get_all_parts, calculate_items_for_manifest
+# from projects.views import create_project, update_project, delete_project
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
+    path('api/ffxiv/get-all-parts/', get_all_parts, name='get_all_parts'),
+    path('api/ffxiv/total-manifest/', calculate_items_for_manifest, name='calculate_items_for_manifest'),
 ]
