@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
-import dj_database_url
-from dotenv import load_dotenv
+import pymongo
+from django.conf import settings
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -80,13 +80,27 @@ WSGI_APPLICATION = 'ffxiv_workshop_companion.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-load_dotenv()
-DATABASE_URL = os.getenv('DATABASE_URL')
+
+MONGODB_HOST = os.environ.get('MONGODB_HOST', 'localhost')
+MONGODB_PORT = int(os.environ.get('MONGODB_PORT', '27017'))
+MONGODB_DATABASE = os.environ.get('MONGODB_DATABASE', 'ffxiv_workshop')
+MONGODB_USERNAME = os.environ.get('MONGODB_USERNAME', '')
+MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD', '')
+
+if MONGODB_USERNAME and MONGODB_PASSWORD:
+    MONGODB_URI = f"mongodb://{MONGODB_USERNAME}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/{MONGODB_DATABASE}?authSource=admin"
+else:
+    MONGODB_URI = f"mongodb://{MONGODB_HOST}:{MONGODB_PORT}/{MONGODB_DATABASE}"
+
+mongo_client = pymongo.MongoClient(MONGODB_URI)
+mongo_db = mongo_client.get_database()
 
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),       
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

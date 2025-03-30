@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-deployment
+  namespace: ffxiv-workshop
+  labels:
+    app: django
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      containers:
+      - name: django
+        image: ${DOCKERHUB_USERNAME}/valuable_gathering:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "300m"
+        env:
+        - name: DJANGO_SETTINGS_MODULE
+          valueFrom:
+            configMapKeyRef:
+              name: ffxiv-workshop-config
+              key: DJANGO_SETTINGS_MODULE
+        - name: DJANGO_DEBUG
+          valueFrom:
+            configMapKeyRef:
+              name: ffxiv-workshop-config
+              key: DJANGO_DEBUG
+        - name: DJANGO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ffxiv-workshop-secrets
+              key: DJANGO_SECRET_KEY
+        - name: MONGODB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: ffxiv-workshop-config
+              key: MONGODB_HOST
+        - name: MONGODB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: ffxiv-workshop-config
+              key: MONGODB_PORT
+        - name: MONGODB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: ffxiv-workshop-config
+              key: MONGODB_DATABASE
+        - name: MONGODB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: ffxiv-workshop-secrets
+              key: MONGODB_USERNAME
+        - name: MONGODB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ffxiv-workshop-secrets
+              key: MONGODB_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-service
+  namespace: ffxiv-workshop
+spec:
+  selector:
+    app: django
+  ports:
+  - port: 80
+    targetPort: 8000
+  type: LoadBalancer
