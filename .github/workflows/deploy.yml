@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and Deploy w/ Kubernetes
 
 on:
   push:
@@ -27,8 +27,8 @@ jobs:
 
       - name: Run Django tests
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: $env:RUN_LIVE_DB_TESTS=1; python manage.py test
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        run: python manage.py test
 
       - name: Build Docker image
         shell: powershell
@@ -54,21 +54,49 @@ jobs:
     needs: build
     runs-on: [self-hosted, windows]
     steps:
-      - name: Deploy container directly
-        shell: pwsh
-        env:
-          DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+      
+      - name: Update kubernetes configuration
         run: |
-          Write-Output "Pulling Docker image..."
-          docker pull $env:DOCKER_IMAGE
+          # update docker image reference
+          $env:DOCKERHUB_USERNAME = "${{ secrets.DOCKERHUB_USERNAME }}"
+          (Get-Content -path ./k8s/django-deployment.yaml) -replace '\${DOCKERHUB_USERNAME}', $env:DOCKERHUB_USERNAME | Set-Content -Path ./k8s/django-deployment.yaml
+
+          # create a temporary configmap and secret with prod values
+          $configMapContent = Get-Content -path ./k8s/env-config.yml
+
+          # create prod secrets file using github
+          $secretBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("${{ secrets.DJANGO_SECRET_KEY }}"))
+          $mongoUsernameBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("${{ secrets.MONGODB_USERNAME }}"))
+          $mongoPasswordBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("${{ secrets.MONGODB_PASSWORD }}"))
+
+          # Update the secrets in the YAML file
+          $configMapContent = $configMapContent -replace 'DJANGO_SECRET_KEY: "ZGphbmdvLXNlY3JldC1rZXktcmVwbGFjZS1pbi1wcm9kdWN0aW9u"', "DJANGO_SECRET_KEY: `"$secretBase64`""
+          $configMapContent = $configMapContent -replace 'MONGODB_USERNAME: "YWRtaW4="', "MONGODB_USERNAME: `"$mongoUsernameBase64`""
+          $configMapContent = $configMapContent -replace 'MONGODB_PASSWORD: "cGFzc3dvcmQ="', "MONGODB_PASSWORD: `"$mongoPasswordBase64`""
           
-          Write-Output "Stopping and removing any existing container..."
-          docker stop valuable_gathering || Write-Output "No container to stop."
-          docker rm valuable_gathering || Write-Output "No container to remove."
+          # Write updated ConfigMap and Secret to a temporary file
+          $configMapContent | Set-Content -Path ./k8s/env-config-prod.yaml
+      
+      - name: Deploy to Kubernetes
+        shell: pwsh
+        run: |
+          kubectl apply -f ./k8s/namespace-quota.yaml
+          kubectl apply -f ./k8s/env-config-prod.yaml
+          kubectl apply -f ./k8s/mongodb-deployment.yml
+          kubectl apply -f ./k8s/django-deployment.yml
           
-          Write-Output "Starting new container..."
-          docker run -d --name valuable_gathering -p 8000:8000 -e DATABASE_URL="$env:DATABASE_URL" $env:DOCKER_IMAGE
+          # wait for deployments to be ready
+          kubectl rollout status deployment/mongodb-deployment -n ffxiv-workshop
+          kubectl rollout status deployment/django-deployment -n ffxiv-workshop
+
+          # Clean up sensitive files
+          Remove-Item -Path ./k8s/env-config-prod.yaml
+
           
-          Write-Output "Fetching container logs (first 20 lines):"
-          docker logs valuable_gathering --tail 20
+          echo "Deployment complete! Django service is available at the following endpoint:"
+          kubectl get service django-service -o jsonpath="{.status.loadBalancer.ingress[0].ip}"

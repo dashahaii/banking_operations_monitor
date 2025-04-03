@@ -1,6 +1,4 @@
-# ffxiv_workshop_companion Django Server
-
-Welcome to the ffxiv_workshop_companion project!
+# Banking Operations Monitor
 
 ## Setup Instructions
 
