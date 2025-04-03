@@ -1,0 +1,162 @@
+{
+    "RES001": {
+      "name": "compute_server_x86_standard",
+      "category": "COMPUTE"
+    },
+    "RES002": {
+      "name": "compute_server_x86_high_memory",
+      "category": "COMPUTE"
+    },
+    "RES003": {
+      "name": "compute_server_x86_high_cpu",
+      "category": "COMPUTE"
+    },
+    "RES004": {
+      "name": "compute_server_power9",
+      "category": "COMPUTE"
+    },
+    "RES005": {
+      "name": "compute_server_mainframe",
+      "category": "COMPUTE"
+    },
+    "RES006": {
+      "name": "storage_san_tier1",
+      "category": "STORAGE"
+    },
+    "RES007": {
+      "name": "storage_san_tier2",
+      "category": "STORAGE"
+    },
+    "RES008": {
+      "name": "storage_nas_standard",
+      "category": "STORAGE"
+    },
+    "RES009": {
+      "name": "storage_object_backup",
+      "category": "STORAGE"
+    },
+    "RES010": {
+      "name": "storage_tape_backup",
+      "category": "STORAGE"
+    },
+    "RES011": {
+      "name": "network_firewall_standard",
+      "category": "NETWORK"
+    },
+    "RES012": {
+      "name": "network_load_balancer",
+      "category": "NETWORK"
+    },
+    "RES013": {
+      "name": "network_router_core",
+      "category": "NETWORK"
+    },
+    "RES014": {
+      "name": "network_switch_access",
+      "category": "NETWORK"
+    },
+    "RES015": {
+      "name": "network_switch_distribution",
+      "category": "NETWORK"
+    },
+    "RES016": {
+      "name": "license_oracle_db_enterprise",
+      "category": "LICENSE"
+    },
+    "RES017": {
+      "name": "license_oracle_db_standard",
+      "category": "LICENSE"
+    },
+    "RES018": {
+      "name": "license_sql_server_enterprise",
+      "category": "LICENSE"
+    },
+    "RES019": {
+      "name": "license_sql_server_standard",
+      "category": "LICENSE"
+    },
+    "RES020": {
+      "name": "license_vmware_vsphere",
+      "category": "LICENSE"
+    },
+    "RES021": {
+      "name": "software_antivirus_endpoint",
+      "category": "LICENSE"
+    },
+    "RES022": {
+      "name": "software_monitoring_agent",
+      "category": "LICENSE"
+    },
+    "RES023": {
+      "name": "software_backup_agent",
+      "category": "LICENSE"
+    },
+    "RES024": {
+      "name": "container_kubernetes_cluster",
+      "category": "COMPUTE"
+    },
+    "RES025": {
+      "name": "container_openshift_cluster",
+      "category": "COMPUTE"
+    },
+    "RES026": {
+      "name": "vm_small_linux",
+      "category": "COMPUTE"
+    },
+    "RES027": {
+      "name": "vm_medium_linux",
+      "category": "COMPUTE"
+    },
+    "RES028": {
+      "name": "vm_large_linux",
+      "category": "COMPUTE"
+    },
+    "RES029": {
+      "name": "vm_small_windows",
+      "category": "COMPUTE"
+    },
+    "RES030": {
+      "name": "vm_medium_windows",
+      "category": "COMPUTE"
+    },
+    "RES031": {
+      "name": "vm_large_windows",
+      "category": "COMPUTE"
+    },
+    "RES032": {
+      "name": "security_certificate_authority",
+      "category": "SERVICE"
+    },
+    "RES033": {
+      "name": "security_hsm",
+      "category": "SERVICE"
+    },
+    "RES034": {
+      "name": "security_ids",
+      "category": "SERVICE"
+    },
+    "RES035": {
+      "name": "security_waf",
+      "category": "SERVICE"
+    },
+    "RES036": {
+      "name": "middleware_application_server",
+      "category": "SERVICE"
+    },
+    "RES037": {
+      "name": "middleware_messaging_queue",
+      "category": "SERVICE"
+    },
+    "RES038": {
+      "name": "middleware_api_gateway",
+      "category": "SERVICE"
+    },
+    "RES039": {
+      "name": "middleware_integration_bus",
+      "category": "SERVICE"
+    },
+    "RES040": {
+      "name": "middleware_etl_platform",
+      "category": "SERVICE"
+    }
+  }

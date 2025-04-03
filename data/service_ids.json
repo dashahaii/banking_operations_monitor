@@ -1,0 +1,82 @@
+{
+    "SVC001": {
+      "name": "core_banking",
+      "category": "CRITICAL"
+    },
+    "SVC002": {
+      "name": "online_banking",
+      "category": "CRITICAL"
+    },
+    "SVC003": {
+      "name": "mobile_banking",
+      "category": "CRITICAL"
+    },
+    "SVC004": {
+      "name": "atm_network",
+      "category": "CRITICAL"
+    },
+    "SVC005": {
+      "name": "credit_card_processing",
+      "category": "CRITICAL"
+    },
+    "SVC006": {
+      "name": "wire_transfer",
+      "category": "CRITICAL"
+    },
+    "SVC007": {
+      "name": "fraud_detection",
+      "category": "HIGH"
+    },
+    "SVC008": {
+      "name": "customer_relationship",
+      "category": "HIGH"
+    },
+    "SVC009": {
+      "name": "loan_origination",
+      "category": "HIGH"
+    },
+    "SVC010": {
+      "name": "mortgage_processing",
+      "category": "HIGH"
+    },
+    "SVC011": {
+      "name": "wealth_management",
+      "category": "HIGH"
+    },
+    "SVC012": {
+      "name": "trading_platform",
+      "category": "HIGH"
+    },
+    "SVC013": {
+      "name": "compliance_reporting",
+      "category": "MEDIUM"
+    },
+    "SVC014": {
+      "name": "business_intelligence",
+      "category": "MEDIUM"
+    },
+    "SVC015": {
+      "name": "document_management",
+      "category": "MEDIUM"
+    },
+    "SVC016": {
+      "name": "hr_management",
+      "category": "LOW"
+    },
+    "SVC017": {
+      "name": "finance_accounting",
+      "category": "MEDIUM"
+    },
+    "SVC018": {
+      "name": "email_system",
+      "category": "MEDIUM"
+    },
+    "SVC019": {
+      "name": "collaboration_tools",
+      "category": "LOW"
+    },
+    "SVC020": {
+      "name": "intranet_portal",
+      "category": "LOW"
+    }
+  }
