@@ -63,7 +63,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: mongodb-secret
+  name: banking-operations-monitor-secrets
 type: Opaque
 data:
   mongo-root-username: YWRtaW4=    # admin (base64 encoded)

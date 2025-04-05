@@ -9,7 +9,7 @@ jobs:
     runs-on: [self-hosted, windows]
     steps:
       - name: Add safe directory
-        run: git config --global --add safe.directory C:/actions-runner/_work/valuable_gathering_platform/valuable_gathering_platform
+        run: git config --global --add safe.directory C:/actions-runner/_work/banking_operations_monitor/banking_operations_monitor
       
       - name: Checkout code
         uses: actions/checkout@v3
@@ -17,7 +17,7 @@ jobs:
       - name: Build Docker image
         shell: powershell
         env:
-          DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
+          DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/banking_operations_monitor
         run: |
           docker build -t $env:DOCKER_IMAGE .
 
@@ -30,7 +30,7 @@ jobs:
       - name: Push Docker image
         shell: pwsh
         env:
-          DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/valuable_gathering
+          DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/banking_operations_monitor
         run: |
           docker push $env:DOCKER_IMAGE
 

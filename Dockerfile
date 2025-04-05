@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN python3 -m pip install --upgrade pip && \
-    pip3 install -r requirements.txt
+    pip3 install -r requirements.txt && \
+    pip3 install coreapi pyyaml 
 
 # Copy the entire project into the container
 COPY . /app

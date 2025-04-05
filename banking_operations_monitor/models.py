@@ -27,6 +27,9 @@ class Resource(models.Model):
     
     def __str__(self):
         return self.name
+        
+    class Meta:
+        app_label = 'banking_operations_monitor'
 
 class Service(models.Model):
     """Model representing a banking service that depends on resources"""
@@ -51,6 +54,9 @@ class Service(models.Model):
     
     def __str__(self):
         return self.name
+        
+    class Meta:
+        app_label = 'banking_operations_monitor'
 
 class ServiceResourceDependency(models.Model):
     """Model representing the dependency of a service on a resource"""
@@ -60,6 +66,7 @@ class ServiceResourceDependency(models.Model):
     is_critical = models.BooleanField(default=False)
     
     class Meta:
+        app_label = 'banking_operations_monitor'
         unique_together = ('service', 'resource')
         verbose_name_plural = 'Service Resource Dependencies'
     
@@ -81,6 +88,9 @@ class ResourcePricing(models.Model):
     
     def __str__(self):
         return f"Pricing for {self.resource}"
+        
+    class Meta:
+        app_label = 'banking_operations_monitor'
 
 class ResourceUsageHistory(models.Model):
     """Model for tracking resource usage over time"""
@@ -89,6 +99,7 @@ class ResourceUsageHistory(models.Model):
     utilization = models.FloatField()
     
     class Meta:
+        app_label = 'banking_operations_monitor'
         indexes = [
             models.Index(fields=['resource', 'timestamp']),
         ]
@@ -133,3 +144,6 @@ class Alert(models.Model):
         self.is_resolved = True
         self.resolved_at = timezone.now()
         self.save()
+        
+    class Meta:
+        app_label = 'banking_operations_monitor'

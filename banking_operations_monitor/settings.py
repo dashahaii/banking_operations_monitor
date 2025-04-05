@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-77leiz20@_s*v$f#wuv5th5h32$u)1m&84(6z+xz)$gpmvvcpq'
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['100.98.30.53', 'localhost', '127.0.0.1']
 
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'banking_operations_monitor',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +66,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'banking_applications_monitor.wsgi.application'
 
+# Django REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
 
 # Database Configuration
 # Ensure you have the latest version of djongo installed
@@ -110,6 +120,20 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
