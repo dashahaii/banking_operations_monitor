@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb-deployment
-  namespace: ffxiv-workshop
+  namespace: banking-operations-monitor
   labels:
     app: mongodb
 spec:
@@ -32,12 +32,12 @@ spec:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
             secretKeyRef:
-              name: ffxiv-workshop-secrets
+              name: banking-operations-monitor-secrets
               key: MONGODB_USERNAME
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: ffxiv-workshop-secrets
+              name: banking-operations-monitor-secrets
               key: MONGODB_PASSWORD
         volumeMounts:
         - name: mongodb-data
@@ -51,7 +51,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb-service
-  namespace: ffxiv-workshop
+  namespace: banking-operations-monitor
 spec:
   selector:
     app: mongodb

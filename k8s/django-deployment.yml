@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: django-deployment
-  namespace: ffxiv-workshop
+  namespace: banking-operations-monitor
   labels:
     app: django
 spec:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: django
-        image: ${DOCKERHUB_USERNAME}/valuable_gathering:latest
+        image: ${DOCKERHUB_USERNAME}/banking_operations_monitor:latest
         ports:
         - containerPort: 8000
         resources:
@@ -31,49 +31,49 @@ spec:
         - name: DJANGO_SETTINGS_MODULE
           valueFrom:
             configMapKeyRef:
-              name: ffxiv-workshop-config
+              name: banking-operations-monitor-config
               key: DJANGO_SETTINGS_MODULE
         - name: DJANGO_DEBUG
           valueFrom:
             configMapKeyRef:
-              name: ffxiv-workshop-config
+              name: banking-operations-monitor-config
               key: DJANGO_DEBUG
         - name: DJANGO_SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: ffxiv-workshop-secrets
+              name: banking-operations-monitor-secrets
               key: DJANGO_SECRET_KEY
         - name: MONGODB_HOST
           valueFrom:
             configMapKeyRef:
-              name: ffxiv-workshop-config
+              name: banking-operations-monitor-config
               key: MONGODB_HOST
         - name: MONGODB_PORT
           valueFrom:
             configMapKeyRef:
-              name: ffxiv-workshop-config
+              name: banking-operations-monitor-config
               key: MONGODB_PORT
         - name: MONGODB_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: ffxiv-workshop-config
+              name: banking-operations-monitor-config
               key: MONGODB_DATABASE
         - name: MONGODB_USERNAME
           valueFrom:
             secretKeyRef:
-              name: ffxiv-workshop-secrets
+              name: banking-operations-monitor-secrets
               key: MONGODB_USERNAME
         - name: MONGODB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: ffxiv-workshop-secrets
+              name: banking-operations-monitor-secrets
               key: MONGODB_PASSWORD
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: django-service
-  namespace: ffxiv-workshop
+  namespace: banking-operations-monitor
 spec:
   selector:
     app: django

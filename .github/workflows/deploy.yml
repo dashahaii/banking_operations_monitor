@@ -75,8 +75,8 @@ jobs:
           kubectl apply -f ./k8s/django-deployment.yml
           
           # wait for deployments to be ready
-          kubectl rollout status deployment/mongodb-deployment -n ffxiv-workshop
-          kubectl rollout status deployment/django-deployment -n ffxiv-workshop
+          kubectl rollout status deployment/mongodb-deployment -n banking_operations_monitor
+          kubectl rollout status deployment/django-deployment -n banking_operations_monitor
 
           # Clean up sensitive files
           Remove-Item -Path ./k8s/env-config-prod.yaml

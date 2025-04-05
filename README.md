@@ -16,8 +16,8 @@ cd <repository-directory>
 
 ```bash
 
-docker build -t ffxiv_workshop_companion .
-docker run -p 8000:8000 ffxiv_workshop_companion
+docker build -t banking_operations_monitor .
+docker run -p 8000:8000 banking_operations_monitor
 
 ```
 

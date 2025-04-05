@@ -19,8 +19,8 @@ COPY . /app
 EXPOSE 8000
 
 # Set configuration environment variables
-ENV DJANGO_SETTINGS_MODULE=ffxiv_workshop_companion.settings
-ENV MONGODB_URI=mongodb://mongodb-service:27017/ffxiv_workshop
+ENV DJANGO_SETTINGS_MODULE=banking_operations_monitor.settings
+ENV MONGODB_URI=mongodb://mongodb-service:27017/banking_operations_monitor
 
 # Run database migrations and then start the Django development server
 CMD python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
