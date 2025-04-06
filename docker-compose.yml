@@ -1,6 +1,7 @@
 services:
   mongodb:
     image: mongo:latest
+    container_name: banking-it-ops-mongodb
     ports:
       - "27017:27017"
     environment:
@@ -27,7 +28,63 @@ services:
       - .:/app
     depends_on:
       - mongodb
+      - prometheus
     restart: unless-stopped
 
+
+  prometheus:
+    image: prom/prometheus
+    container_name: banking-it-ops-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./config/prometheus:/etc/prometheus
+      - ./data/prometheus_metrics:/prometheus_metrics
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:10.1.0
+    container_name: banking-it-ops-grafana
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+      - ./config/grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+
+  # Node Exporter for system metrics
+  node-exporter:
+    image: prom/node-exporter:v1.6.0
+    container_name: banking-it-ops-node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+      - "9100:9100"
+          
 volumes:
   mongodb_data:
+  prometheus_data:
+  grafana_data:

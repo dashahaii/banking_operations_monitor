@@ -557,7 +557,6 @@ def health_check(request):
     """
     Simple health check endpoint for container orchestration systems
     """
-    # Could add more sophisticated checks here (DB connection, etc.)
     return HttpResponse(
         "OK",
         content_type="text/plain"

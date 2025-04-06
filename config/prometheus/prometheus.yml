@@ -1,0 +1,36 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  scrape_timeout: 10s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+rule_files:
+  - "/etc/prometheus/rules/*.yml"
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Node exporter for host system metrics
+  - job_name: "node_exporter"
+    static_configs:
+      - targets: ["node-exporter:9100"]
+    
+  # Django application metrics
+  - job_name: "banking_it_ops"
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["django:8000"]
+    
+  # Banking resource metrics 
+  - job_name: "banking_resource_metrics"
+    static_configs:
+      - targets: ["django:8000"]
+        labels:
+          source: "resource_metrics"

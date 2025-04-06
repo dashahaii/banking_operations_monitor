@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-77leiz20@_s*v$f#wuv5th5h32$u)1m&84(6z+xz)$gpmvvcpq'
 DEBUG = True
 
-ALLOWED_HOSTS = ['100.98.30.53', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['100.98.30.53', 'localhost', '127.0.0.1', 'django', '*']
 
 
 # Application definition
@@ -64,7 +64,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'banking_applications_monitor.wsgi.application'
+WSGI_APPLICATION = 'banking_operations_monitor.wsgi.application'
 
 # Django REST Framework settings
 REST_FRAMEWORK = {
