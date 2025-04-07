@@ -76,34 +76,21 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 }
 
-# Database Configuration
-# Ensure you have the latest version of djongo installed
-# pip install djongo
-
-# MongoDB Connection Details
-MONGODB_HOST = os.environ.get('MONGODB_HOST', 'localhost')
-MONGODB_PORT = int(os.environ.get('MONGODB_PORT', '27017'))
-MONGODB_DATABASE = os.environ.get('MONGODB_DATABASE', '')
+# MongoDB connection settings
+MONGODB_HOST = os.environ.get('MONGODB_HOST', 'mongodb')
+MONGODB_PORT = int(os.environ.get('MONGODB_PORT', 27017))
+MONGODB_DATABASE = os.environ.get('MONGODB_DATABASE', 'banking_operations_monitor')
 MONGODB_USERNAME = os.environ.get('MONGODB_USERNAME', '')
 MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD', '')
 
-# Construct MongoDB URI
-if MONGODB_USERNAME and MONGODB_PASSWORD:
-    MONGODB_URI = f"mongodb://{MONGODB_USERNAME}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/{MONGODB_DATABASE}?authSource=admin"
-else:
-    MONGODB_URI = f"mongodb://{MONGODB_HOST}:{MONGODB_PORT}/{MONGODB_DATABASE}"
-
-
+# Django requires a database setting, even if you're using PyMongo directly
+# We can use SQLite for Django's internal operations (admin, sessions, etc.)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-# Maintain the pymongo connection for additional operations if needed
-mongo_client = pymongo.MongoClient(MONGODB_URI)
-mongo_db = mongo_client.get_database()
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

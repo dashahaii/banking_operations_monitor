@@ -8,15 +8,30 @@ import os
 import glob
 from collections import defaultdict
 from django.conf import settings
-from pymongo import MongoClient
 import logging
-
-# Configure MongoDB connection
-client = MongoClient(settings.MONGODB_URI)
-db = client[settings.MONGODB_DATABASE]  # Changed from MONGODB_NAME to MONGODB_DATABASE
+from pymongo import MongoClient
 
 # Configure logging
 logger = logging.getLogger(__name__)
+
+# MongoDB connection
+MONGODB_HOST = getattr(settings, 'MONGODB_HOST', 'mongodb')
+MONGODB_PORT = int(getattr(settings, 'MONGODB_PORT', 27017))
+MONGODB_DATABASE = getattr(settings, 'MONGODB_DATABASE', 'banking_operations_monitor')
+MONGODB_USERNAME = getattr(settings, 'MONGODB_USERNAME', '')
+MONGODB_PASSWORD = getattr(settings, 'MONGODB_PASSWORD', '')
+
+# Establish MongoDB connection
+client = MongoClient(
+    host=MONGODB_HOST,
+    port=MONGODB_PORT,
+    username=MONGODB_USERNAME or None,
+    password=MONGODB_PASSWORD or None,
+    authSource='admin' if MONGODB_USERNAME else None
+)
+
+# Get database
+db = client[MONGODB_DATABASE]
 
 # --- Helper Functions ---
 
@@ -37,10 +52,9 @@ def load_csv_with_max_columns(filepath):
         on_bad_lines='skip'  # Skip lines with too many fields
     )
 
-# Function to consolidate resource utilization reports
+# Function to consolidate CSV contents
 def consolidate_resource_reports(folder_path="operations/resource_data"):
-    """Consolidate all resource utilization reports into a single dataset"""
-    # Create an object to store resource quantities
+    # Create an object to store item quantities
     resource_utilization = {}
     
     # Get all CSV files in the specified folder
@@ -82,7 +96,7 @@ def consolidate_resource_reports(folder_path="operations/resource_data"):
             columns=['Resource', 'Utilization']
         ).sort_values('Resource').reset_index(drop=True)
         
-        # Save to output.csv and MongoDB
+        # Save to output.csv without headers
         output_path = 'operations/resource_output.csv'
         df.to_csv(output_path, index=False, header=False)
         logger.info(f"Consolidated resource data saved to {output_path}")
@@ -97,11 +111,13 @@ def consolidate_resource_reports(folder_path="operations/resource_data"):
         logger.warning("No valid data found in the resource files")
         return None
 
+
+
 # --- Dependency Chain Analysis ---
 
 def generate_dependency_chain(total_csv, dependency_book_csv, resource_location_csv, output_csv):
     """
-    Generate a comprehensive list of base resources needed for all operations.
+    Generate the comprehensive list of base resources needed for all operations.
     
     - total_csv: path to total_services_dependencies.csv (top-level services)
     - dependency_book_csv: path to dependency_book.csv (service dependencies)
@@ -265,7 +281,7 @@ def fetch_pricing_for_all_resources(resources_csv, services_csv, resource_ids_js
             logger.error(f"Error: No ID found for resource '{name}' (cleaned as '{cleaned}').")
             return None
 
-    df_combined["Resource ID"] = df_combined["Item Name"].apply(get_resource_id)
+    df_combined["Item ID"] = df_combined["Item Name"].apply(get_resource_id)
 
     # Initialize pricing data columns
     pricing_columns = [
@@ -279,11 +295,11 @@ def fetch_pricing_for_all_resources(resources_csv, services_csv, resource_ids_js
     for col in pricing_columns:
         df_combined[col] = None
 
-    # Fetch pricing data for each resource
+    # Fetch pricing data for each item
     for idx, row in df_combined.iterrows():
-        resource_id = row["Resource ID"]
-        if resource_id is not None:
-            pricing_data = fetch_vendor_pricing(resource_id, datacenter, pricing_columns)
+        item_id = row["Item ID"]
+        if item_id is not None:
+            pricing_data = fetch_vendor_pricing(item_id, datacenter, pricing_columns)
             for key, value in pricing_data.items():
                 df_combined.at[idx, key] = value
             time.sleep(0.5)  # Rate limiting
@@ -327,7 +343,7 @@ def export_prometheus_metrics():
             metrics.append(f'bank_resource_monthly_usage{{item="{item_name}",category="{category}"}} {item.get("monthly_usage")}')
     
     # Write metrics to file for Prometheus to scrape
-    metrics_path = os.path.join(settings.BASE_DIR, 'prometheus_metrics', 'resource_metrics.prom')
+    metrics_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'prometheus_metrics', 'resource_metrics.prom')
     os.makedirs(os.path.dirname(metrics_path), exist_ok=True)
     
     with open(metrics_path, 'w') as f:

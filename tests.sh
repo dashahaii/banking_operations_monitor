@@ -47,11 +47,11 @@ run_test "Check health endpoint" "curl -s ${BASE_URL}/health/"
 run_test "Check API root to see available endpoints" "curl -s ${BASE_URL}/api/v1/ | json_pp"
 
 # 2. Import Sample Data
-run_test "Import resources from CSV" "curl -X POST ${BASE_URL}/api/v1/resources/import \
-  -F \"file=@data/resource_data/resource_inventory.csv\" | json_pp"
+run_test "Import resources from CSV" "curl -X POST ${BASE_URL}/api/v1/resources/import/ \
+  -F \"file=@data/resource_data/resource_inventory.csv\" "
 
-run_test "Import services and dependencies" "curl -X POST ${BASE_URL}/api/v1/services/import \
-  -F \"file=@data/service_dependencies.csv\" | json_pp"
+run_test "Import services and dependencies" "curl -X POST ${BASE_URL}/api/v1/services/import/ \
+  -F \"file=@data/service_dependencies.csv\" "
 
 # 3. Resource Management
 run_test "List all resources" "curl -s ${BASE_URL}/api/v1/resources/ | json_pp"

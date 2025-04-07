@@ -10,8 +10,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN python3 -m pip install --upgrade pip && \
-    pip3 install -r requirements.txt && \
-    pip3 install coreapi pyyaml djangorestframework
+    pip3 install -r requirements.txt
 
 # Copy the entire project into the container
 COPY . /app
@@ -23,5 +22,5 @@ EXPOSE 8000
 ENV DJANGO_SETTINGS_MODULE=banking_operations_monitor.settings
 ENV MONGODB_URI=mongodb://mongodb-service:27017/banking_operations_monitor
 
-# Run database migrations and then start the Django development server
-CMD python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
+# Start the Django development server (no migrations needed)
+CMD python3 manage.py runserver 0.0.0.0:8000
