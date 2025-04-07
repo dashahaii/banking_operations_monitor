@@ -1,0 +1,4 @@
+Service,Required_Resources
+core_banking,5
+online_banking,5
+mobile_banking,5

@@ -1,6 +1,7 @@
 from django.urls import path, include
 from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
+from banking_operations_monitor.metrics import PrometheusMetrics
 from . import views
 
 # API URL patterns
@@ -41,8 +42,8 @@ urlpatterns = [
     # API documentation
     path('api/docs/', include_docs_urls(title='Banking IT Ops API', public=True)),
     
-    # Prometheus metrics endpoint (for Django app metrics)
-    path('metrics/', views.prometheus_metrics, name='prometheus-metrics'),
+    # New prometheus metrics that uses middleware
+    path('metrics/', PrometheusMetrics.metrics_view, name='prometheus_metrics'),
     
     # Healthcheck endpoint
     path('health/', views.health_check, name='health-check'),

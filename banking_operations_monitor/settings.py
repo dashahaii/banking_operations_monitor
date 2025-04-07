@@ -44,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'banking_operations_monitor.middleware.PrometheusMiddleware',
 ]
 
 ROOT_URLCONF = 'banking_operations_monitor.urls'
