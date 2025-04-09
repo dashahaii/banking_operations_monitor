@@ -31,7 +31,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "c887b5d9-d909-4143-9dae-9f7a34be10c9"
         },
         "gridPos": {
           "h": 8,
@@ -56,7 +56,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "c887b5d9-d909-4143-9dae-9f7a34be10c9"
         },
         "fieldConfig": {
           "defaults": {
@@ -135,7 +135,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "c887b5d9-d909-4143-9dae-9f7a34be10c9"
         },
         "fieldConfig": {
           "defaults": {
@@ -190,7 +190,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "c887b5d9-d909-4143-9dae-9f7a34be10c9"
             },
             "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[1m])) * 100)",
             "refId": "A"
@@ -202,7 +202,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "c887b5d9-d909-4143-9dae-9f7a34be10c9"
         },
         "fieldConfig": {
           "defaults": {
@@ -257,7 +257,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "c887b5d9-d909-4143-9dae-9f7a34be10c9"
             },
             "expr": "100 * (1 - ((node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes))",
             "refId": "A"
@@ -269,7 +269,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "c887b5d9-d909-4143-9dae-9f7a34be10c9"
         },
         "fieldConfig": {
           "defaults": {
@@ -346,7 +346,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "c887b5d9-d909-4143-9dae-9f7a34be10c9"
         },
         "fieldConfig": {
           "defaults": {
@@ -397,7 +397,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "c887b5d9-d909-4143-9dae-9f7a34be10c9"
         },
         "fieldConfig": {
           "defaults": {
