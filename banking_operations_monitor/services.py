@@ -317,7 +317,7 @@ def fetch_pricing_for_all_resources(resources_csv, services_csv, resource_ids_js
 # --- Prometheus Metrics Export ---
 
 def export_prometheus_metrics():
-    """Export key metrics for Prometheus scraping"""
+    """Export metrics for Prometheus scraping"""
     # Get all resource utilization data
     resources = list(db.resource_utilization.find({}))
     
