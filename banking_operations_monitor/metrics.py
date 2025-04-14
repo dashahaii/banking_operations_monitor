@@ -1,83 +1,103 @@
-import psutil
-import os
-from prometheus_client import Counter, Gauge, Histogram, generate_latest, CONTENT_TYPE_LATEST
+# metrics.py
+from prometheus_client import Counter, Gauge, Histogram, Summary, generate_latest, CONTENT_TYPE_LATEST
 from django.http import HttpResponse
 
 class PrometheusMetrics:
-    # Request Metrics
-    REQUESTS = Counter(
-        'django_http_requests_total', 
-        'Total HTTP Requests', 
-        ['method', 'endpoint', 'status']
+    # Request count metric
+    REQUEST_COUNT = Counter(
+        'http_requests_total',
+        'Total HTTP requests count',
+        ['method', 'endpoint', 'status_code']
     )
-
+    
+    # Request latency metric
     REQUEST_LATENCY = Histogram(
-        'django_http_request_duration_seconds', 
-        'HTTP request latency',
+        'http_request_latency_seconds',
+        'HTTP request latency in seconds',
         ['method', 'endpoint']
     )
-
-    # Database Metrics
-    DB_CONNECTIONS = Gauge(
-        'django_db_connections', 
-        'Number of active database connections'
+    
+    # Exception count metric
+    EXCEPTION_COUNT = Counter(
+        'http_exceptions_total',
+        'Total HTTP request exceptions',
+        ['method', 'endpoint', 'exception_type']
     )
-
-    # System Resource Metrics
-    SYSTEM_RESOURCES = {
-        'cpu_usage': Gauge(
-            'django_process_cpu_usage', 
-            'Current CPU usage of the Django process'
-        ),
-        'memory_usage': Gauge(
-            'django_process_memory_usage_bytes', 
-            'Current memory usage of the Django process'
-        )
-    }
-
+    
+    # Health check gauge
+    HEALTH_CHECK = Gauge(
+        'app_health_check_up',
+        'Health check status (1=up, 0=down)',
+        ['endpoint']
+    )
+    
+    # MongoDB connection status
+    MONGODB_CONNECTION = Gauge(
+        'app_mongodb_connection_up',
+        'MongoDB connection status (1=up, 0=down)',
+        []
+    )
+    
+    # Service dependency status
+    SERVICE_DEPENDENCY = Gauge(
+        'app_service_dependency_up',
+        'Service dependency status (1=up, 0=down)',
+        ['service']
+    )
+    
+    # Initialize default values
+    HEALTH_CHECK.labels(endpoint='health').set(1)
+    MONGODB_CONNECTION.set(1)
+    
     @classmethod
     def track_request_metrics(cls, request, response=None, exception=None):
         """
-        Track request-related metrics
+        Track metrics for HTTP requests
         """
         method = request.method
         path = request.path
-
-        # Count total requests
-        status_code = getattr(response, 'status_code', 500) if response else 500
-        cls.REQUESTS.labels(
-            method=method, 
-            endpoint=path, 
-            status=status_code
-        ).inc()
-
-        return response
-
+        
+        if exception:
+            # Track exception
+            exception_type = type(exception).__name__
+            cls.EXCEPTION_COUNT.labels(
+                method=method,
+                endpoint=path,
+                exception_type=exception_type
+            ).inc()
+        elif response:
+            # Track request count
+            cls.REQUEST_COUNT.labels(
+                method=method,
+                endpoint=path,
+                status_code=response.status_code
+            ).inc()
+    
     @classmethod
-    def update_system_metrics(cls):
+    def update_health_status(cls, endpoint='health', status=True):
         """
-        Update system resource metrics
+        Update the health check status for a specific endpoint
         """
-        try:
-            # Get current process
-            process = psutil.Process(os.getpid())
-            
-            # Update CPU and Memory usage
-            cls.SYSTEM_RESOURCES['cpu_usage'].set(process.cpu_percent())
-            cls.SYSTEM_RESOURCES['memory_usage'].set(process.memory_info().rss)
-        except Exception as e:
-            print(f"Error updating system metrics: {e}")
-
+        cls.HEALTH_CHECK.labels(endpoint=endpoint).set(1 if status else 0)
+    
+    @classmethod
+    def update_mongodb_status(cls, status=True):
+        """
+        Update MongoDB connection status
+        """
+        cls.MONGODB_CONNECTION.set(1 if status else 0)
+    
+    @classmethod
+    def update_service_status(cls, service, status=True):
+        """
+        Update service dependency status
+        """
+        cls.SERVICE_DEPENDENCY.labels(service=service).set(1 if status else 0)
+    
     @classmethod
     def metrics_view(cls, request):
         """
-        Endpoint to expose Prometheus metrics
+        Return all metrics as a Prometheus-formatted response
         """
-        # Update system resource metrics before generating
-        cls.update_system_metrics()
-
-        # Generate and return metrics
-        return HttpResponse(
-            generate_latest(), 
-            content_type=CONTENT_TYPE_LATEST
-        )
+        metrics_page = generate_latest()
+        return HttpResponse(metrics_page, content_type=CONTENT_TYPE_LATEST)

@@ -580,12 +580,37 @@ def prometheus_metrics(request):
         content_type=CONTENT_TYPE_LATEST
     )
 
-@require_GET
+from .metrics import PrometheusMetrics
+
 def health_check(request):
     """
-    Simple health check endpoint for container orchestration systems
+    Health check endpoint that checks system health and updates Prometheus metrics
     """
-    return HttpResponse(
-        "OK",
-        content_type="text/plain"
-    )
+    try:
+        # Check MongoDB connection
+        from pymongo import MongoClient
+        import os
+        
+        client = MongoClient(
+            host=os.environ.get('MONGODB_HOST', 'mongodb'),
+            port=int(os.environ.get('MONGODB_PORT', 27017)),
+            username=os.environ.get('MONGODB_USERNAME'),
+            password=os.environ.get('MONGODB_PASSWORD'),
+            serverSelectionTimeoutMS=1000  # Quick timeout for health check
+        )
+        # Test the connection
+        client.admin.command('ping')
+        
+        # Update MongoDB status to healthy
+        PrometheusMetrics.update_mongodb_status(status=True)
+        
+        # Update overall health check status to healthy
+        PrometheusMetrics.update_health_status(endpoint='health', status=True)
+        
+        return HttpResponse("OK")
+    except Exception as e:
+        # Update health check status to unhealthy
+        PrometheusMetrics.update_mongodb_status(status=False)
+        PrometheusMetrics.update_health_status(endpoint='health', status=False)
+        
+        return HttpResponse(f"ERROR: {str(e)}", status=500)

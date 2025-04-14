@@ -26,25 +26,16 @@ api_patterns = [
     path('pricing/update/', views.update_pricing, name='update-pricing'),
     path('services/<int:pk>/cost-analysis/', views.service_cost_analysis, name='service-cost-analysis'),
     
-    # Metrics and monitoring endpoints
+    # Application metrics and monitoring endpoints
     path('metrics/export/', views.export_metrics, name='export-metrics'),
     path('alerts/', views.alerts_list, name='alerts-list'),
     path('alerts/<int:pk>/resolve/', views.resolve_alert, name='resolve-alert'),
 ]
 
 urlpatterns = [
-    # Admin site
     path('admin/', admin.site.urls),
-    
-    # API endpoints (v1)
     path('api/v1/', include(api_patterns)),
-    
-    # API documentation
     path('api/docs/', include_docs_urls(title='Banking IT Ops API', public=True)),
-    
-    # New prometheus metrics that uses middleware
     path('metrics/', PrometheusMetrics.metrics_view, name='prometheus_metrics'),
-    
-    # Healthcheck endpoint
     path('health/', views.health_check, name='health-check'),
 ]

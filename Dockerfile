@@ -12,15 +12,11 @@ COPY requirements.txt /app/requirements.txt
 RUN python3 -m pip install --upgrade pip && \
     pip3 install -r requirements.txt
 
-# Copy the entire project into the container
 COPY . /app
 
-# Expose port 8000 so the container is accessible
 EXPOSE 8000
 
-# Set configuration environment variables
 ENV DJANGO_SETTINGS_MODULE=banking_operations_monitor.settings
 ENV MONGODB_URI=mongodb://mongodb-service:27017/banking_operations_monitor
 
-# Start the Django development server (no migrations needed)
 CMD python3 manage.py runserver 0.0.0.0:8000
